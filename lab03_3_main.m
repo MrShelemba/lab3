@@ -120,12 +120,10 @@ xlabel('Відліки'); ylabel('Амплітуда');
 r4 = 0.7;
 b4 = [1 0 -1];          
 a4 = 1-2*r4*cos(phi)*r4^2; 
-ecg = load('ecg105.txt'); % сигнал ЕКГ
-ecg2 = detrend(ecg);
-ecgf2 = filter(b4, a4, ecg2);
+ecgf2 = filter(b4, a4, ecg1);
 t2 = (0:length(ecgf2)-1)/fs;
 figure(10)
-subplot (2, 1, 1); plot(t2, ecg2), grid on;
+subplot (2, 1, 1); plot(t2, ecg1), grid on;
 title('Нефільтрований сигнал');
 xlim([0 2]);
 ylabel('Амплітуда');
@@ -138,12 +136,10 @@ xlabel('Відліки'); ylabel('Амплітуда');
 r5 = 0.8;
 b5 = [1 0 -1];          
 a5 = 1-2*r5*cos(phi)*r5^2; 
-ecg = load('ecg105.txt'); % сигнал ЕКГ
-ecg3 = detrend(ecg);
-ecgf3 = filter(b5, a5, ecg3);
+ecgf3 = filter(b5, a5, ecg1);
 t3 = (0:length(ecgf3)-1)/fs;
 figure(11)
-subplot (2, 1, 1); plot(t3, ecg3), grid on;
+subplot (2, 1, 1); plot(t3, ecg1), grid on;
 title('Нефільтрований сигнал');
 xlim([0 2]);
 ylabel('Амплітуда');
@@ -181,9 +177,9 @@ figure(12)
 mag4 = abs(h4);
 phase4 = angle(h4)*180/pi;
 subplot(2, 1, 1); plot(f4/(2*pi)*fs, mag4), grid on;
-title ('АЧХ фільтру'); ylabel ('Підсилення');
+title ('АЧХ смугового режекторного НІХ-фільтру'); ylabel ('Підсилення');
 subplot(2, 1, 2); plot(f4/(2*pi)*fs, unwrap(phase4)), grid on;
-title('ФЧХ фільтру'); xlabel('Частота'); ylabel('Фаза');
+title('ФЧХ смугового режекторного НІХ-фільтру'); xlabel('Частота'); ylabel('Фаза');
 
 % Обчислення нулів та полюсів фільтру
 x3 = roots (b)
@@ -192,3 +188,36 @@ y3 = poly (a)
 % Карта нулів та полюсів фільтру
 figure(13)
 z3 = zplane(b,a);
+
+%=== Завдання #3.3 ===
+% Порівняння АЧХ і ФЧХ режекторних НІХ і СІХ-фільтрів
+figure(14)
+subplot(4, 1, 1); plot(f4/(2*pi)*fs, mag4), grid on;
+title ('АЧХ режекторного НІХ-фільтру'); ylabel ('Підсилення');
+subplot(4, 1, 2); plot(f4/(2*pi)*fs, unwrap(phase4)), grid on;
+title('ФЧХ режекторного НІХ-фільтру'); xlabel('Частота'); ylabel('Фаза');
+b7 = [1,0.618, 1]; % коефіцієнти різницевого рівняння 
+a7 = 1;
+[h5,f5] = freqz(b7, a7, n, fs);
+mag5 = abs(h5);
+phase5 = angle(h5)*180/pi;
+subplot(4, 1, 3); plot(f5/(2*pi)*fs, mag5), grid on;
+title('АЧХ режекторного СІХ-фільтру'); ylabel('Підсилення');
+subplot(4, 1, 4); plot(f5/(2*pi)*fs, unwrap(phase5)), grid on;
+title ('ФЧХ режекторного СІХ-фільтру'); xlabel('Частота'); ylabel('Фаза');
+
+%=== Завдання #3.4 ===
+% Фільтрацію сигналу ЕКГ(файл ecg2x60.dat) режекторним фільтром
+ecg2 = load('ecg2x60.dat'); % сигнал ЕКГ
+ecgd2 = detrend(ecg2);
+ecgf4 = filter(b6, a6, ecgd2);
+t4 = (0:length(ecgf4)-1)/fs;
+figure(15)   
+subplot (2, 1, 1); plot(t4, ecgd2), grid on;
+title('Нефільтрований сигнал з мережевою перешкодою 60 Гц');
+xlim([1 2]);
+ylabel('Амплітуда');
+subplot (2, 1, 2); plot (t4, ecgf4); grid on;
+title('Відфільтрований сигнал');
+xlim([1 2]);
+xlabel('Відліки'); ylabel('Амплітуда');
