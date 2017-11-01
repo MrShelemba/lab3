@@ -41,3 +41,46 @@ y = poly (a)
 % Карта нулів та полюсів фільтру
 figure(2)
 z = zplane(b);
+
+%=== Завдання #1.3 ===
+% r = 0.7
+r = 0.7;
+b1 = [1 0 -1];          
+a1 = 1-2*r*cos(phi)*r^2;     
+figure(3)
+[h,f] = freqz(b1,a1,n);
+mag2 = abs(h);
+phase = angle(h)*180/pi;
+subplot(2, 1, 1); plot(f/(2*pi)*fs, mag2), grid on;
+title('АЧХ фільтру'); ylabel('Підсилення');
+subplot(2, 1, 2); plot(f/(2*pi)*fs,unwrap(phase)), grid on;
+title('ФЧХ фільтру'); xlabel('Частота'); ylabel('Фаза');
+
+% Обчислення нулів та полюсів фільтру
+x1 = roots (b1)
+y1 = poly (a1)
+
+% Карта нулів та полюсів фільтру
+figure(4)
+z1 = zplane(b1);
+
+% r = 0.9
+r = 0.9;
+b2 = [1 0 -1];          
+a2 = 1-2*r*cos(phi)*r^2;     
+figure(3)
+[h,f] = freqz(b2,a2,n);
+mag3 = abs(h);
+phase = angle(h)*180/pi;
+subplot(2, 1, 1); plot(f/(2*pi)*fs, mag3), grid on;
+title('АЧХ фільтру'); ylabel('Підсилення');
+subplot(2, 1, 2); plot(f/(2*pi)*fs,unwrap(phase)), grid on;
+title('ФЧХ фільтру'); xlabel('Частота'); ylabel('Фаза');
+
+% Обчислення нулів та полюсів фільтру
+x2 = roots (b2)
+y2 = poly (a2)
+
+% Карта нулів та полюсів фільтру
+figure(4)
+z2 = zplane(b2);
