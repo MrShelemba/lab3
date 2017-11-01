@@ -68,7 +68,7 @@ z1 = zplane(b1);
 r = 0.9;
 b2 = [1 0 -1];          
 a2 = 1-2*r*cos(phi)*r^2;     
-figure(3)
+figure(5)
 [h,f] = freqz(b2,a2,n);
 mag3 = abs(h);
 phase = angle(h)*180/pi;
@@ -82,5 +82,15 @@ x2 = roots (b2)
 y2 = poly (a2)
 
 % Карта нулів та полюсів фільтру
-figure(4)
+figure(6)
 z2 = zplane(b2);
+
+%=== Завдання #1.4 ===
+%Побудува графіків перехідних процесів
+n = 5;
+[h,t] = stepz(b1, a1, n, fs)
+figure(7)
+plot (t,h);
+[h,t] = stepz(b2, a2, n, fs)
+figure(8)
+plot (t,h);
