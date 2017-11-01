@@ -52,9 +52,9 @@ figure(3)
 mag2 = abs(h);
 phase = angle(h)*180/pi;
 subplot(2, 1, 1); plot(f/(2*pi)*fs, mag2), grid on;
-title('АЧХ фільтру'); ylabel('Підсилення');
+title('АЧХ фільтру при r = 0.7'); ylabel('Підсилення');
 subplot(2, 1, 2); plot(f/(2*pi)*fs, unwrap(phase)), grid on;
-title('ФЧХ фільтру'); xlabel('Частота'); ylabel('Фаза');
+title('ФЧХ фільтру при r = 0.7'); xlabel('Частота'); ylabel('Фаза');
 
 % Обчислення нулів та полюсів фільтру
 x1 = roots (b1)
@@ -73,9 +73,9 @@ figure(5)
 mag3 = abs(h);
 phase = angle(h)*180/pi;
 subplot(2, 1, 1); plot(f/(2*pi)*fs, mag3), grid on;
-title('АЧХ фільтру'); ylabel('Підсилення');
+title('АЧХ фільтру при r = 0.9'); ylabel('Підсилення');
 subplot(2, 1, 2); plot(f/(2*pi)*fs, unwrap(phase)), grid on;
-title('ФЧХ фільтру'); xlabel('Частота'); ylabel('Фаза');
+title('ФЧХ фільтру при r = 0.9'); xlabel('Частота'); ylabel('Фаза');
 
 % Обчислення нулів та полюсів фільтру
 x2 = roots (b2)
@@ -88,10 +88,10 @@ z2 = zplane(b2);
 %=== Завдання #1.4 ===
 %Побудува графіків перехідних процесів
 n = 5;
-[h,t] = stepz(b1, a1, n, fs)
+[h,t] = stepz(b1, a1, n, fs);
 figure(7)
 plot (t,h);
-[h,t] = stepz(b2, a2, n, fs)
+[h,t] = stepz(b2, a2, n, fs);
 figure(8)
 plot (t,h);
 
@@ -106,15 +106,12 @@ ecg1 = detrend(ecg);
 ecgf1 = filter(b3, a3, ecg1);
 t1 = (0:length(ecgf1)-1)/fs;
 figure(9)
-[h,f] = freqz(b3, a3, n);
-mag3 = abs(h);
-phase = angle(h)*180/pi;
 subplot (2, 1, 1); plot(t1, ecg1), grid on;
 title('Нефільтрований сигнал');
 xlim([0 2]);
 ylabel('Амплітуда');
 subplot (2, 1, 2); plot (t1, ecgf1); grid on;
-title('Відфільтрований сигнал');
+title('Відфільтрований сигнал при r = 0.6');
 xlim([0 2]);
 xlabel('Відліки'); ylabel('Амплітуда');
 
@@ -130,37 +127,31 @@ ecg2 = detrend(ecg);
 ecgf2 = filter(b4, a4, ecg2);
 t2 = (0:length(ecgf2)-1)/fs;
 figure(10)
-[h,f] = freqz(b4, a4, n);
-mag4 = abs(h);
-phase = angle(h)*180/pi;
 subplot (2, 1, 1); plot(t2, ecg2), grid on;
 title('Нефільтрований сигнал');
 xlim([0 2]);
 ylabel('Амплітуда');
 subplot (2, 1, 2); plot(t2, ecgf2); grid on;
-title('Відфільтрований сигнал');
+title('Відфільтрований сигнал при r = 0.7');
 xlim([0 2]);
 xlabel('Відліки'); ylabel('Амплітуда');
 
 % r = 0.8
 fs = 200; 
 r5 = 0.8;
-b3 = [1 0 -1];          
-a3 = 1-2*r5*cos(phi)*r5^2; 
+b5 = [1 0 -1];          
+a5 = 1-2*r5*cos(phi)*r5^2; 
 ecg = load('ecg105.txt'); % сигнал ЕКГ
 ecg3 = detrend(ecg);
-ecgf3 = filter(b3, a3, ecg3);
+ecgf3 = filter(b5, a5, ecg3);
 t3 = (0:length(ecgf3)-1)/fs;
 figure(11)
-[h,f] = freqz(b3, a3, n);
-mag3 = abs(h);
-phase = angle(h)*180/pi;
 subplot (2, 1, 1); plot(t3, ecg3), grid on;
 title('Нефільтрований сигнал');
 xlim([0 2]);
 ylabel('Амплітуда');
 subplot (2, 1, 2); plot(t3, ecgf3); grid on;
-title('Відфільтрований сигнал');
+title('Відфільтрований сигнал при r = 0.8');
 xlim([0 2]);
 xlabel('Відліки'); ylabel('Амплітуда');
 
@@ -174,3 +165,15 @@ subplot (2, 1, 2); plot (t3, ecgf3); grid on;
 title('Відфільтрований сигнал при r = 0.8');
 xlim([0 2]);
 xlabel('Відліки'); ylabel('Амплітуда');
+
+%=== Завдання #3.1 ===
+% Дослідження властивостей режекторного НІХ-фільтру
+fs = 200;
+r6 = 0.8;
+phi1 = 110*pi/180;
+phi2 = 130*pi/180; 
+ax = [1-2*r6*cos(phi1)*r6^2] ;
+ax2 = [1-2*r6*cos(phi2)*r6^2];
+a6 = conv(ax, ax2);
+b6 = [1 1 1]; 
+H1 = filt(b6, a6) % передавальна функція
