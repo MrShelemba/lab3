@@ -298,6 +298,7 @@ disp(xi1);
 disp('Полюси інтегратора (метод прямокутників):');
 yi1 = poly(ai1);
 disp(yi1);
+
 %метод трапецій
 disp('Нулі інтегратора (метод трапецій):');
 xi2 = roots(bi2);
@@ -305,6 +306,7 @@ disp(xi2);
 disp('Полюси інтегратора (метод трапецій):');
 yi2 = poly(ai2);
 disp(yi2);
+
 %метод Сімпсона
 disp('Нулі інтегратора (метод парабол):');
 xi3 = roots(bi3);
@@ -335,24 +337,65 @@ mag0 = 1./(2*pi*f); % АЧХ ідеального інтегратора
 loglog(f, mag0, f, magi1);
 err1 = (magi1 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод прямокутників)');
-figure(23);
+figure(22);
 plot(f, err1);
 title('Абсолютна похибка АЧХ інтегратора (метод прямокутників)');
 
 %метод трапецій 
-figure(24);
+figure(23);
 loglog(f, mag0, f, magi2); %логарифмічний маштаб
 err2 = (magi2 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод трапецій)');
-figure(25);
+figure(24);
 plot(f, err2);
 title('Абсолютна похибка АЧХ інтегратора (метод трапецій)');
 
 % метод Сімпсона
-figure(26);
-loglog(f, mag0, f,magi3);
+figure(25);
+loglog(f, mag0, f, magi3);
 err3 = (magi3 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод парабол)');
-figure(27);
+figure(26);
 plot(f, err3);
 title('Абсолютна похибка АЧХ інтегратора (метод парабол)');
+
+%=== Завдання #4.4 ===
+% Інтегрування сигналу ЕКГ (файл ecg105.txt) інтеграторами
+% метод прямокутників
+ecgfi1 = filter(bi1, ai1, ecgd1);
+ti1 = (0:length(ecgfi1)-1)/fs;
+figure(27)
+subplot(2, 1, 1); plot(ti1, ecgd1), grid on;
+title('Сигнал з шумом');
+xlim([0 1]);
+ylabel('Амплітуда');
+subplot(2, 1, 2); plot(ti1, ecgfi1); grid on;
+title('Проінтегрований сигнал (метод прямокутників)');
+xlim([1 3]);
+xlabel('Відліки'); ylabel('Амплітуда');
+
+%метод трапецій 
+ecgfi2 = filter(bi2, ai2, ecgd1);
+ti2 = (0:length(ecgfi2)-1)/fs;
+figure(28)
+subplot(2, 1, 1); plot(ti2, ecgd1), grid on;
+title('Сигнал з шумом');
+xlim([0 1]);
+ylabel('Амплітуда');
+subplot(2, 1, 2); plot(ti2, ecgfi2); grid on;
+title('Проінтегрований сигнал (метод трапецій)');
+xlim([1 3]);
+xlabel('Відліки'); ylabel('Амплітуда');
+
+% метод Сімпсона 
+ecgfi3 = filter(bi3, ai3, ecgd1);
+ti3 = (0:length(ecgfi3)-1)/fs;
+figure(29)
+subplot(2, 1, 1); plot(ti3, ecgd1), grid on;
+title('Сигнал з шумом');
+xlim([0 1]);
+ylabel('Амплітуда');
+subplot(2, 1, 2); plot(ti3, ecgfi3); grid on;
+title('Проінтегрований сигнал (метод парабол)');
+xlim([1 3]);
+xlabel('Відліки'); ylabel('Амплітуда');
