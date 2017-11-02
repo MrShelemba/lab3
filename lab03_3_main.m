@@ -100,15 +100,23 @@ figure(6)
 z2 = zplane(b2);
 title('Карта нулів та полюсів смугового фільтру при r = 0.9:');
 
+%=== Завдання #1.4 ===
+%Визначення добротності
+%при r=0.6 y=3.075 0.7y=2.1525 
+xd1=24.61;
+xd2=75.39;
+%при r=0.7 y=4.494 0.7y=3.1458 x1=24.61 x2=75.39
+%при r=0.9 y=11.14 0.7y=7.798 x1=24.61 x2=75.39
+disp('Добротність смугового фільтру:');
+Q=fc/(xd2-xd1);
+disp(Q)
+
 %=== Завдання #1.5 ===
 %Побудува графіків перехідних процесів
-n2 = 5;
-[h3, t3] = stepz(b1, a1, n2, fs);
 figure(7)
-stepz(t3, h3);
-[h3, t3] = stepz(b2, a2, n2, fs);
-figure(8)
-stepz(t3, h3);
+subplot(2,1,1); stepz(b1, a1);
+subplot(2,1,2); stepz(b2, a2);
+
 
 %=== Завдання #2.1 ===
 % Фільтрація ЕКГ при r = 0.6 
@@ -190,7 +198,7 @@ H1 = filt(b6, a6) % передавальна функція
 
 %=== Завдання #3.2 ===
 % АЧХ та ФЧХ смугового режекторного НІХ-фільтру
-figure(12)
+figure(13)
 [h4, f4] = freqz(a6, b6, n);
 mag4 = abs(h4);
 phase4 = angle(h4)*180/pi;
@@ -208,13 +216,13 @@ y3 = poly(a);
 disp(y3);
  
 % Карта нулів та полюсів фільтру
-figure(13)
+figure(14)
 z3 = zplane(b,a);
 title('Карта нулів та полюсів смугового режекторного НІХ-фільтру:');
 
 %=== Завдання #3.3 ===
 % Порівняння АЧХ і ФЧХ режекторних НІХ і СІХ-фільтрів
-figure(14)
+figure(15)
 subplot(4, 1, 1); plot(f4/(2*pi)*fs, mag4), grid on;
 title('АЧХ режекторного НІХ-фільтру'); ylabel('Підсилення');
 subplot(4, 1, 2); plot(f4/(2*pi)*fs, unwrap(phase4)), grid on;
@@ -235,7 +243,7 @@ ecg2 = load('ecg2x60.dat'); % сигнал ЕКГ
 ecgd2 = detrend(ecg2);
 ecgf4 = filter(b6, a6, ecgd2);
 t4 = (0:length(ecgf4)-1)/fs;
-figure(15)   
+figure(16)   
 subplot(2, 1, 1); plot(t4, ecgd2), grid on;
 title('Сигнал з мережевою перешкодою 60 Гц');
 xlim([1 2]);
@@ -273,7 +281,7 @@ phasei2 = angle(hi2)*180/pi;
 magi3 = abs(hi3);
 phasei3 = angle(hi3)*180/pi;
 
-figure(16)
+figure(17)
 subplot(3, 1, 1); plot(wi1/(2*pi)*fs, magi1), grid on;
 title('АЧХ інтегратора (метод прямокутників)'); ylabel('Підсилення');
 subplot(3, 1, 2); plot(wi2/(2*pi)*fs, magi2), grid on;
@@ -281,7 +289,7 @@ title ('АЧХ інтегратора (метод трапецій)'); ylabel ('
 subplot(3, 1, 3); plot(wi3/(2*pi)*fs, magi3), grid on;
 title ('АЧХ інтегратора (метод парабол)'); xlabel ('Частота'); ylabel ('Підсилення');
 
-figure(17)
+figure(18)
 subplot(3, 1, 1); plot(wi1/(2*pi)*fs, unwrap(phasei1)), grid on;
 title('ФЧХ інтегратора (метод прямокутників)'); ylabel('Фаза');
 subplot(3, 1, 2); plot(wi2/(2*pi)*fs, unwrap(phasei2)), grid on;
@@ -317,45 +325,45 @@ disp(yi3);
 
 % Карти нулів та полюсів інтеграторів
 % метод прямокутників
-figure(18);
+figure(19);
 zi1 = zplane(bi1, ai1);
 title('Карта нулів та полюсів інтегратора (метод прямокутників)');
 % метод трапецій
-figure(19);
+figure(20);
 zi2 = zplane(bi2, ai2);
 title('Карта нулів та полюсів інтегратора (метод трапецій)');
 % метод парабол
-figure(20);
+figure(21);
 zi3 = zplane(bi3, ai3);
 title('Карта нулів та полюсів інтегратора (метод парабол)');
 
 %=== Завдання #4.3 ===
 % Обчислення абсолютної похибки АЧХ
 % метод прямокутників
-figure(21);
+figure(22);
 mag0 = 1./(2*pi*f); % АЧХ ідеального інтегратора 
 loglog(f, mag0, f, magi1);
 err1 = (magi1 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод прямокутників)');
-figure(22);
+figure(23);
 plot(f, err1);
 title('Абсолютна похибка АЧХ інтегратора (метод прямокутників)');
 
 %метод трапецій 
-figure(23);
+figure(24);
 loglog(f, mag0, f, magi2); %логарифмічний маштаб
 err2 = (magi2 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод трапецій)');
-figure(24);
+figure(25);
 plot(f, err2);
 title('Абсолютна похибка АЧХ інтегратора (метод трапецій)');
 
 % метод Сімпсона
-figure(25);
+figure(26);
 loglog(f, mag0, f, magi3);
 err3 = (magi3 - mag0)*100;
 title('Ідеальна та реальна АЧХ інтегратора (метод парабол)');
-figure(26);
+figure(27);
 plot(f, err3);
 title('Абсолютна похибка АЧХ інтегратора (метод парабол)');
 
@@ -364,7 +372,7 @@ title('Абсолютна похибка АЧХ інтегратора (мето
 % метод прямокутників
 ecgfi1 = filter(bi1, ai1, ecgd1);
 ti1 = (0:length(ecgfi1)-1)/fs;
-figure(27)
+figure(28)
 subplot(2, 1, 1); plot(ti1, ecgd1), grid on;
 title('Сигнал з шумом');
 xlim([0 1]);
@@ -377,7 +385,7 @@ xlabel('Відліки'); ylabel('Амплітуда');
 %метод трапецій 
 ecgfi2 = filter(bi2, ai2, ecgd1);
 ti2 = (0:length(ecgfi2)-1)/fs;
-figure(28)
+figure(29)
 subplot(2, 1, 1); plot(ti2, ecgd1), grid on;
 title('Сигнал з шумом');
 xlim([0 1]);
@@ -390,7 +398,7 @@ xlabel('Відліки'); ylabel('Амплітуда');
 % метод Сімпсона 
 ecgfi3 = filter(bi3, ai3, ecgd1);
 ti3 = (0:length(ecgfi3)-1)/fs;
-figure(29)
+figure(30)
 subplot(2, 1, 1); plot(ti3, ecgd1), grid on;
 title('Сигнал з шумом');
 xlim([0 1]);
